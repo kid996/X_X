@@ -22,6 +22,7 @@ public class Server {
     private final int RECEIVE_REQUEST = 1;
     private Handler mHandler = null;
     private CallBack mCallBack;
+    private Socket mSocket;
 
     public interface CallBack{
         public Response onRequest(Request request);
@@ -74,17 +75,16 @@ public class Server {
         }
         //3.接收请求
         while(true){
-            Socket socket;
             String requestStr = null;
             try{
-                socket = mServerSocket.accept();
+                mSocket = mServerSocket.accept();
                 DataInputStream is = new DataInputStream(
-                        new BufferedInputStream(socket.getInputStream())
+                        new BufferedInputStream(mSocket.getInputStream())
                 );
                 requestStr = is.readUTF();
                         System.out.println("收到一条request: " + requestStr);
                 Request request = new Request(requestStr);
-                request.setSocket(socket);
+//                request.setSocket(socket);
                 Message msg = new Message();
                 msg.setWhat(RECEIVE_REQUEST);
                 msg.setObject(request);
@@ -109,7 +109,7 @@ public class Server {
                     DataOutputStream os = null;
                     try{
                         if(response != null) {
-                            Socket socket = request.getSocket();
+                            Socket socket = mSocket;
                             os = new DataOutputStream(
                                     new BufferedOutputStream(socket.getOutputStream())
                             );

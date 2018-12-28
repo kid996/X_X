@@ -2,12 +2,9 @@ package X_X.netUtil;
 
 import net.sf.json.JSONObject;
 
-import java.net.Socket;
-
 public class Request {
     private String action;
     private String data;
-    private Socket socket;
 
     public Request(){
 
@@ -26,15 +23,6 @@ public class Request {
     public void setAction(String action) {
         this.action = action;
     }
-
-    public Socket getSocket() {
-        return socket;
-    }
-
-    public void setSocket(Socket socket) {
-        this.socket = socket;
-    }
-
     public String getData() {
         return data;
     }
