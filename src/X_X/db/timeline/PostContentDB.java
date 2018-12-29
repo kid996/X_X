@@ -14,7 +14,7 @@ import java.io.IOException;
 public class PostContentDB {
     private static final String FILE_PATH =
             "C:\\JavaWorkspace\\X_X\\src\\X_X\\db\\timeline\\postContent.xls";
-    private static final String FIRST_SHEET = "postComments";
+    private static final String FIRST_SHEET = "postContents";
     private static int sId = 1;
 
     public static interface POSTCONTENT_INFO{
