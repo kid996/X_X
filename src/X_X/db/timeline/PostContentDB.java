@@ -13,7 +13,7 @@ import java.io.IOException;
 
 public class PostContentDB {
     private static final String FILE_PATH =
-            "C:\\JavaWorkspace\\X_X\\src\\X_X\\db\\timeline\\postComment.xls";
+            "C:\\JavaWorkspace\\X_X\\src\\X_X\\db\\timeline\\postContent.xls";
     private static final String FIRST_SHEET = "postComments";
     private static int sId = 1;
 

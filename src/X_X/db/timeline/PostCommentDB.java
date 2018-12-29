@@ -4,7 +4,7 @@ import X_X.model.timeline.PostComment;
 
 public class PostCommentDB {
     private static final String FILE_PATH =
-            "C:\\JavaWorkspace\\X_X\\src\\X_X\\db\\timeline\\postContent.xsl";
+            "C:\\JavaWorkspace\\X_X\\src\\X_X\\db\\timeline\\postComment.xsl";
     private static final String FIRST_SHEET = "postComments";
     private static int sId = 1;
 
