@@ -26,7 +26,7 @@ public class LogicRouter {
         mLogics.put(LogicAction.USER_HOME, UserHomeLogic.class);
         mLogics.put(LogicAction.BROWSE_COMMENTS, BrowseCommentsLogic.class);
         mLogics.put(LogicAction.BROWSE_CONTENTS, BrowseContentsLogic.class);
-        mLogics.put(LogicAction.DELETE_CONTENT, DeleteContentLogic.class);
+        mLogics.put(LogicAction.TOKEN_IS_RIGHT, TokenIsRightLogic.class);
         mLogics.put(LogicAction.PUSH_CONTENT, PushContentLogic.class);
         mLogics.put(LogicAction.PUSH_COMMENT, PushCommentLogic.class);
     }

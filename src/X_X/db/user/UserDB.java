@@ -37,6 +37,7 @@ public class UserDB {
         public static final int AGE = 4;
         public static final int SEX = 5;
         public static final int TOKEN = 6;
+        public static final int EXPIRE_TIME = 7;
     }
 
     public static void initUserDB(){
@@ -58,6 +59,9 @@ public class UserDB {
         cell.setCellValue("sex");
         cell = row.createCell(USER_INFO.TOKEN);
         cell.setCellValue("token");
+        cell = row.createCell(USER_INFO.EXPIRE_TIME);
+        cell.setCellValue("expireTime");
+
         try{
             FileOutputStream fos = new FileOutputStream(FILE_PATH);
             wb.write(fos);
@@ -152,21 +156,56 @@ public class UserDB {
         return false;
     }
 
-    public static String getUserId(String phone) {
+    public static String getUserIdByToken(String token){
+        try{
+            FileInputStream fis = new FileInputStream(FILE_PATH);
+            HSSFWorkbook wb = new HSSFWorkbook(fis);
+            HSSFSheet sheet = wb.getSheet(FIRST_SHEET);
+            int lastNum = sheet.getLastRowNum();
+            for(int i = 1 ; i <= lastNum ; i ++){
+                HSSFRow tempRow = sheet.getRow(i);
+                if(tempRow.getCell(USER_INFO.TOKEN).
+                        getStringCellValue().equals(token)){
+                    return tempRow.getCell(USER_INFO.ID).getStringCellValue();
+                }
+            }
+            wb.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String getUserIdByPhone(String phone) {
         try {
             FileInputStream fis = new FileInputStream(FILE_PATH);
             HSSFWorkbook wb = new HSSFWorkbook(fis);
             HSSFSheet sheet = wb.getSheet(FIRST_SHEET);
-            int rowNum = sheet.getLastRowNum();
-            for(int i = 1; i <= rowNum ; i ++){
-                HSSFRow temp_row = sheet.getRow(i);
-                if(temp_row.getCell(USER_INFO.PHONE).
+            int lastNum = sheet.getLastRowNum();
+            for(int i = 1; i <= lastNum ; i ++){
+                HSSFRow tempRow = sheet.getRow(i);
+                if(tempRow.getCell(USER_INFO.PHONE).
                         getStringCellValue().equals(phone)){
-                    return temp_row.getCell(USER_INFO.ID).getStringCellValue();
+                    return tempRow.getCell(USER_INFO.ID).getStringCellValue();
                 }
             }
             wb.close();
         }catch(IOException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String getUserNameById(String userId){
+        try{
+            FileInputStream fis = new FileInputStream(FILE_PATH);
+            HSSFWorkbook wb = new HSSFWorkbook(fis);
+            HSSFSheet sheet = wb.getSheet(FIRST_SHEET);
+            int id = Integer.valueOf(userId);
+            wb.close();
+            return sheet.getRow(id).getCell(USER_INFO.NAME).
+                    getStringCellValue();
+        }catch (Exception e){
             e.printStackTrace();
         }
         return null;
@@ -239,19 +278,61 @@ public class UserDB {
         return false;
     }
 
+    public static String getExpireTime(String token){
+        try {
+            FileInputStream fis = new FileInputStream(FILE_PATH);
+            HSSFWorkbook wb = new HSSFWorkbook(fis);
+            HSSFSheet sheet = wb.getSheet(FIRST_SHEET);
+            int lastNum = sheet.getLastRowNum();
+            for(int i = 1 ; i <= lastNum ; i ++){
+                HSSFRow tempRow = sheet.getRow(i);
+                if(tempRow.getCell(USER_INFO.TOKEN).
+                        getStringCellValue().equals(token)){
+                    return tempRow.getCell(USER_INFO.EXPIRE_TIME)
+                            .getStringCellValue();
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static boolean updataExpireTime
+            (String userId, String expireTime){
+        try{
+            FileInputStream fis = new FileInputStream(FILE_PATH);
+            HSSFWorkbook wb = new HSSFWorkbook(fis);
+            HSSFSheet sheet = wb.getSheet(FIRST_SHEET);
+            int id = Integer.valueOf(userId);
+            sheet.getRow(id).createCell(USER_INFO.EXPIRE_TIME);
+            HSSFCell cell = sheet.getRow(id).getCell(USER_INFO.EXPIRE_TIME);
+            cell.setCellValue(expireTime);
+            cell.setCellType(CellType.STRING);
+            FileOutputStream fos = new FileOutputStream(FILE_PATH);
+            wb.write(fos);
+            wb.close();
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     public static void main(String[] args){
 //        initUserDB();
-        User user = new User();
-        user.setPwd("t123");
-        user.setAge("18");
-        user.setName("t");
-        user.setPhone("18844544703");
-        user.setSex("woman");
-        user.setToken("123456");
-        addUser(user);
+//        User user = new User();
+//        user.setPwd("kid123");
+//        user.setAge("18");
+//        user.setName("kid");
+//        user.setPhone("18844544708");
+//        user.setSex("woman");
+//        user.setToken("1234567");
+//        addUser(user);
 //        String phone = "14208987623";
 //        System.out.println(getUserId(phone));
 //        System.out.println(updatePwd("4", "yuan123"));
 //        System.out.println(updateName("4", "yuan"));
+        updataExpireTime("2", "2018-12-31 06:30:16");
     }
 }

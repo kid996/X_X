@@ -21,10 +21,10 @@ public class PushCommentLogic implements ILogic {
     public Response done(Request request){
         Response response = new Response();
         JSONObject data = JSONObject.fromObject(request.getData());
-        String token = (String)data.getOrDefault("token", null);
-        String comment = (String)data.getOrDefault("comment", null);
-        String contentId = (String)data.getOrDefault("contentId", null);
-        String createTime = (String)data.getOrDefault("createTime", null);
+        String token = (String)data.get("token");
+        String comment = (String)data.get("comment");
+        String contentId = (String)data.get("contentId");
+        String createTime = (String)data.get("createTime");
         if(token != null && comment != null && contentId != null
                 && createTime != null){
             String userId = OnLineUsers.getInstance().get(token);

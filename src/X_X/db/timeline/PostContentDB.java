@@ -145,14 +145,14 @@ public class PostContentDB {
     }
 
     public static void main(String[] args){
-//        initPostContentDB();
+        initPostContentDB();
 //        PostContent postContent = new PostContent();
 //        postContent.setTitle("third title");
 //        postContent.setmCreateTime("2019-12-25");
 //        postContent.setContent("third content");
 //        postContent.setmAuthorId("3");
 //        System.out.println(add(postContent));
-        System.out.println(queryAllContents());
+//        System.out.println(queryAllContents());
 //        System.out.println(deleteContent("1"));
     }
 }

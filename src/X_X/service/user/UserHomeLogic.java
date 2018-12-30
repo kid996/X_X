@@ -23,7 +23,7 @@ public class UserHomeLogic implements ILogic {
         Response response = new Response();
         JSONObject data = JSONObject.fromObject(request.getData());
         if(data.has("token")) {
-            String token = (String) data.getOrDefault("token", null);
+            String token = (String) data.get("token");
             if (OnLineUsers.getInstance().containsKey(token)) {
                 String userId = OnLineUsers.getInstance().get(token);
                 User user = UserDB.queryUserInfoById(userId);

@@ -21,7 +21,7 @@ public class UserInfoLogic implements ILogic {
     public Response done(Request request){
         Response response = new Response();
         JSONObject data = JSONObject.fromObject(request.getData());
-        String phone = String.valueOf(data.getOrDefault("phone", null));
+        String phone = String.valueOf(data.get("phone"));
         if(phone != null) {
             User user = UserDB.queryUserInfoByPhone(phone);
             if (user != null) {

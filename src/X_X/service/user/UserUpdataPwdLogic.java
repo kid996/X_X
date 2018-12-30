@@ -21,8 +21,8 @@ public class UserUpdataPwdLogic implements ILogic {
     public Response done(Request request){
         Response response = new Response();
         JSONObject data = JSONObject.fromObject(request.getData());
-        String newPwd = (String)data.getOrDefault("newPwd", null);
-        String token = (String)data.getOrDefault("token", null);
+        String newPwd = (String)data.get("newPwd");
+        String token = (String)data.get("token");
         if(newPwd != null && token != null){
             if(OnLineUsers.getInstance().containsKey(token)){
                 String userId = OnLineUsers.getInstance().get(token);

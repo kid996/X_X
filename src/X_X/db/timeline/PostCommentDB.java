@@ -137,13 +137,13 @@ public class PostCommentDB {
     }
 
     public static void main(String[] args){
-//        initPostCommentDB();
+        initPostCommentDB();
 //        PostComment postComment = new PostComment();
 //        postComment.setContentId("3");
 //        postComment.setAuthorId("2");
 //        postComment.setCreateTime("2018-12-29");
 //        postComment.setComment("snow");
 //        add(postComment);
-        System.out.println(queryComment("2"));
+//        System.out.println(queryComment("2"));
     }
 }

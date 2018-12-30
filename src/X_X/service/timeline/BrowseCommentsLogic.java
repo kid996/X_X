@@ -21,8 +21,8 @@ public class BrowseCommentsLogic implements ILogic {
     public Response done(Request request){
         Response response = new Response();
         JSONObject data = JSONObject.fromObject(request.getData());
-        String token = String.valueOf(data.getOrDefault("token", null));
-        String contentId = String.valueOf(data.getOrDefault("contentId", null));
+        String token = String.valueOf(data.get("token"));
+        String contentId = String.valueOf(data.get("contentId"));
         if(token != null && contentId != null){
             if(OnLineUsers.getInstance().containsKey(token)){
                 String comments = PostCommentDB.queryComment(contentId);

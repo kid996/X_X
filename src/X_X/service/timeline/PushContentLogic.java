@@ -17,10 +17,10 @@ public class PushContentLogic implements ILogic {
     public Response done(Request request){
         Response response = new Response();
         JSONObject data = JSONObject.fromObject(request.getData());
-        String content = (String)data.getOrDefault("content", null);
-        String createTime = (String)data.getOrDefault("createTime", null);
-        String title = (String)data.getOrDefault("title", null);
-        String token = (String)data.getOrDefault("token", null);
+        String content = (String)data.get("content");
+        String createTime = (String)data.get("createTime");
+        String title = (String)data.get("title");
+        String token = (String)data.get("token");
         if(content != null && createTime != null &&
                 title != null && token != null){
             String authorId = OnLineUsers.getInstance().get(token);

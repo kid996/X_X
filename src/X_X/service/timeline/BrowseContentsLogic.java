@@ -21,7 +21,7 @@ public class BrowseContentsLogic implements ILogic {
     public Response done(Request request){
         Response response = new Response();
         JSONObject data = JSONObject.fromObject(request.getData());
-        String token = (String)data.getOrDefault("token", null);
+        String token = (String)data.get("token");
         if(token != null){
             if(OnLineUsers.getInstance().containsKey(token)){
                 String postContents = PostContentDB.queryAllContents();

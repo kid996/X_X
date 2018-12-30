@@ -35,15 +35,22 @@ public class UserRegistedLogic implements ILogic {
             user.setToken(token);
             boolean isSuccess = UserDB.addUser(user);
             if(isSuccess){
-                String phone = (String)data.get("phone");
-                HashMap<String, Object> dataRes = new HashMap<>();
-                dataRes.put("token", "\"" + token + "\"");
-                response.setCode(Response.Status.SUCCESS);
-                response.setData(dataRes);
-                response.setMessage("\"\"");
-                //将用户放入缓存
-                String userId = UserDB.getUserId(phone);
-                OnLineUsers.getInstance().put(token, userId);
+                String expireTime = ServiceTools.getExpireTime();
+                String userId = UserDB.
+                        getUserIdByPhone((String)data.get("phone"));
+                if(UserDB.updataExpireTime(userId, expireTime)) {
+                    HashMap<String, Object> dataRes = new HashMap<>();
+                    dataRes.put("token", "\"" + token + "\"");
+                    response.setCode(Response.Status.SUCCESS);
+                    response.setData(dataRes);
+                    response.setMessage("\"\"");
+                    //将用户放入缓存
+                    OnLineUsers.getInstance().put(token, userId);
+                }else{
+                    response.setCode(Response.Status.FAILED);
+                    response.setData("\"\"");
+                    response.setMessage("\"updata expireTime failed!\"");
+                }
             }else{
                 response.setCode(Response.Status.FAILED);
                 response.setData("\"\"");

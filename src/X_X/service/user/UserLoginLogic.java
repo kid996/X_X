@@ -24,7 +24,6 @@ public class UserLoginLogic implements ILogic {
         JSONObject data = JSONObject.fromObject(request.getData());
         String phone = data.getString("phone");
         String pwd = data.getString("pwd");
-        //进行登陆
         User user = UserDB.queryUserInfoByPhone(phone);
         if(user == null) {
             response.setCode(Response.Status.FAILED);
@@ -34,14 +33,23 @@ public class UserLoginLogic implements ILogic {
         }else if(user.getPwd().equals(pwd)) {
             String newToken = ServiceTools.createToken();
             HashMap<String, Object> dataRes = new HashMap<>();
-            String userId = UserDB.getUserId(phone);
+            String userId = UserDB.getUserIdByPhone(phone);
             if(UserDB.updataToken(userId, newToken)) {
-                dataRes.put("token", "\"" + newToken + "\"");
-                response.setCode(Response.Status.SUCCESS);
-                response.setMessage("\"\"");
-                response.setData(dataRes);
-                //将用户放入缓存
-                OnLineUsers.getInstance().put(newToken, userId);
+                String expireTime = ServiceTools.getExpireTime();
+                if(UserDB.updataExpireTime(userId, expireTime)) {
+                    String name = UserDB.getUserNameById(userId);
+                    dataRes.put("token", "\"" + newToken + "\"");
+                    dataRes.put("name", "\"" + name + "\"");
+                    response.setCode(Response.Status.SUCCESS);
+                    response.setMessage("\"\"");
+                    response.setData(dataRes);
+                    //将用户放入缓存
+                    OnLineUsers.getInstance().put(newToken, userId);
+                }else{
+                    response.setCode(Response.Status.FAILED);
+                    response.setMessage("\"updata ExpireTime failed!\"");
+                    response.setData("\"\"");
+                }
             }else{
                 response.setCode(Response.Status.FAILED);
                 response.setMessage("\"updata token failed!\"");
