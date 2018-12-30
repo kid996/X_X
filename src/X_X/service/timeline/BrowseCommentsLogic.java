@@ -21,8 +21,8 @@ public class BrowseCommentsLogic implements ILogic {
     public Response done(Request request){
         Response response = new Response();
         JSONObject data = JSONObject.fromObject(request.getData());
-        String token = (String)data.getOrDefault("token", null);
-        String contentId = (String)data.getOrDefault("contentId", null);
+        String token = String.valueOf(data.getOrDefault("token", null));
+        String contentId = String.valueOf(data.getOrDefault("contentId", null));
         if(token != null && contentId != null){
             if(OnLineUsers.getInstance().containsKey(token)){
                 String comments = PostCommentDB.queryComment(contentId);
@@ -40,9 +40,24 @@ public class BrowseCommentsLogic implements ILogic {
             }else{
                 response.setCode(Response.Status.FAILED);
                 response.setData("\"\"");
-                response.setMessage("\"request is wrong!\"");
+                response.setMessage("\"user is not login!\"");
             }
+        }else {
+            response.setCode(Response.Status.FAILED);
+            response.setData("\"\"");
+            response.setMessage("\"request is wrong!\"");
         }
         return response;
+    }
+
+    public static void main(String[] agrs){
+        OnLineUsers.getInstance().put("123456", "2");
+        Request request = new Request();
+        JSONObject data = new JSONObject();
+        data.put("token","123456");
+        data.put("contentId", "1");
+        request.setData(data.toString());
+        BrowseCommentsLogic b = new BrowseCommentsLogic();
+        System.out.println(b.done(request));
     }
 }

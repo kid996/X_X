@@ -12,7 +12,7 @@ import X_X.view.OnLineUsers;
 import net.sf.json.JSONObject;
 
 @Logic(action = LogicAction.PUSH_COMMENT,
-params = {"token, comment", "contentId", "createTime"},
+params = {"token", "comment", "contentId", "createTime"},
 paramsType = {ParamsType.String, ParamsType.String,
         ParamsType.String, ParamsType.String},
 paramsCanNull = {false, false,false, false, false})
@@ -49,5 +49,18 @@ public class PushCommentLogic implements ILogic {
             response.setMessage("\"request is wrong!\"");
         }
         return response;
+    }
+
+    public static void main(String[] args){
+        PushCommentLogic p = new PushCommentLogic();
+        OnLineUsers.getInstance().put("123", "2");
+        Request request = new Request();
+        JSONObject data = new JSONObject();
+        data.put("token", "123");
+        data.put("comment", "new year");
+        data.put("contentId", "1");
+        data.put("createTime", "2019-12-30");
+        request.setData(data.toString());
+        System.out.println(p.done(request));
     }
 }
