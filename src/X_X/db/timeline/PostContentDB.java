@@ -7,9 +7,7 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.CellType;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 
 public class PostContentDB {
     private static final String FILE_PATH =
@@ -26,17 +24,27 @@ public class PostContentDB {
     }
 
     private static void initId(){
+        BufferedInputStream in = null;
         try {
-            FileInputStream fis = new FileInputStream(FILE_PATH);
-            HSSFWorkbook wb = new HSSFWorkbook(fis);
+            in = new BufferedInputStream(new FileInputStream(FILE_PATH));
+            HSSFWorkbook wb = new HSSFWorkbook(in);
             sId = wb.getSheet(FIRST_SHEET).getLastRowNum() + 1;
             wb.close();
         }catch(IOException e) {
             e.printStackTrace();
+        }finally {
+            try {
+                if (in != null) {
+                    in.close();
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
     }
 
     public static void initPostContentDB(){
+        BufferedOutputStream out = null;
         try{
             HSSFWorkbook wb = new HSSFWorkbook();
             HSSFSheet sheet = wb.createSheet(FIRST_SHEET);
@@ -52,18 +60,28 @@ public class PostContentDB {
             cell.setCellValue("createTime");
             cell = row.createCell(POSTCONTENT_INFO.AUTHORID);
             cell.setCellValue("authorId");
-            FileOutputStream fos = new FileOutputStream(FILE_PATH);
-            wb.write(fos);
-            fos.flush();
+            out = new BufferedOutputStream(new FileOutputStream(FILE_PATH));
+            wb.write(out);
+            out.flush();
         }catch(IOException e) {
             e.printStackTrace();
+        }finally {
+            try {
+                if (out != null) {
+                    out.close();
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
     }
 
     public static boolean add(PostContent postContent){
+        BufferedInputStream in = null;
+        BufferedOutputStream out = null;
         try {
-            FileInputStream fis = new FileInputStream(FILE_PATH);
-            HSSFWorkbook wb = new HSSFWorkbook(fis);
+            in = new BufferedInputStream(new FileInputStream(FILE_PATH));
+            HSSFWorkbook wb = new HSSFWorkbook(in);
             HSSFSheet sheet = wb.getSheet(FIRST_SHEET);
             HSSFRow row = sheet.createRow(sheet.getLastRowNum() + 1);
             initId();
@@ -82,21 +100,33 @@ public class PostContentDB {
             row.createCell(POSTCONTENT_INFO.AUTHORID)
                     .setCellValue(postContent.getAuthorId());
             row.getCell(POSTCONTENT_INFO.AUTHORID).setCellType(CellType.STRING);
-            FileOutputStream fos = new FileOutputStream(FILE_PATH);
-            wb.write(fos);
+            out = new BufferedOutputStream(new FileOutputStream(FILE_PATH));
+            wb.write(out);
             wb.close();
             sId ++;
             return true;
         }catch(IOException e){
             e.printStackTrace();
+        }finally {
+            try {
+                if (in != null) {
+                    in.close();
+                }
+                if (out != null) {
+                    out.close();
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
         return false;
     }
 
     public static String queryAllContents(){
+        BufferedInputStream in = null;
         try {
-            FileInputStream fis = new FileInputStream(FILE_PATH);
-            HSSFWorkbook wb = new HSSFWorkbook(fis);
+            in = new BufferedInputStream(new FileInputStream(FILE_PATH));
+            HSSFWorkbook wb = new HSSFWorkbook(in);
             HSSFSheet sheet = wb.getSheet(FIRST_SHEET);
             StringBuilder sb = new StringBuilder();
             int num = sheet.getLastRowNum();
@@ -122,24 +152,45 @@ public class PostContentDB {
             return sb.toString();
         }catch(IOException e) {
             e.printStackTrace();
+        }finally {
+            try {
+                if (in != null) {
+                    in.close();
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
         return null;
     }
 
     public static boolean deleteContent(String contentId){
+        BufferedInputStream in = null;
+        BufferedOutputStream out = null;
         try {
-            FileInputStream fis = new FileInputStream(FILE_PATH);
-            HSSFWorkbook wb = new HSSFWorkbook(fis);
+            in = new BufferedInputStream(new FileInputStream(FILE_PATH));
+            HSSFWorkbook wb = new HSSFWorkbook(in);
             HSSFSheet sheet = wb.getSheet(FIRST_SHEET);
             int numId = Integer.valueOf(contentId);
             HSSFRow row = sheet.getRow(numId);
             sheet.removeRow(row);
-            FileOutputStream fos = new FileOutputStream(FILE_PATH);
-            wb.write(fos);
+            out = new BufferedOutputStream(new FileOutputStream(FILE_PATH));
+            wb.write(out);
             wb.close();
             return true;
         }catch(IOException e){
             e.printStackTrace();
+        }finally {
+            try {
+                if (in != null) {
+                    in.close();
+                }
+                if (out != null) {
+                    out.close();
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
         return false;
     }

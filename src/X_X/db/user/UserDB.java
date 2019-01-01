@@ -8,9 +8,7 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.CellType;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 
 public class UserDB {
     private static final String FILE_PATH =
@@ -19,13 +17,22 @@ public class UserDB {
     private static int sId = 1;
 
     private static void initId(){
+        BufferedInputStream in = null;
         try {
-            FileInputStream fis = new FileInputStream(FILE_PATH);
-            HSSFWorkbook wb = new HSSFWorkbook(fis);
+            in = new BufferedInputStream(new FileInputStream(FILE_PATH));
+            HSSFWorkbook wb = new HSSFWorkbook(in);
             sId = wb.getSheet(FIRST_SHEET).getLastRowNum() + 1;
             wb.close();
         }catch(IOException e) {
             e.printStackTrace();
+        }finally {
+            try {
+                if (in != null) {
+                    in.close();
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
     }
 
@@ -62,20 +69,31 @@ public class UserDB {
         cell = row.createCell(USER_INFO.EXPIRE_TIME);
         cell.setCellValue("expireTime");
 
+        BufferedOutputStream out = null;
         try{
-            FileOutputStream fos = new FileOutputStream(FILE_PATH);
-            wb.write(fos);
-            fos.flush();
+            out = new BufferedOutputStream(new FileOutputStream(FILE_PATH));
+            wb.write(out);
+            //TODO
+            out.flush();
         }catch (IOException e){
             e.printStackTrace();
+        }finally {
+            try {
+                if (out != null) {
+                    out.close();
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
     }
 
     public static User queryUserInfoById(String userId){
+        BufferedInputStream in = null;
         try{
             User user = new User();
-            FileInputStream fis = new FileInputStream(FILE_PATH);
-            HSSFWorkbook wb = new HSSFWorkbook(fis);
+            in = new BufferedInputStream(new FileInputStream(FILE_PATH));
+            HSSFWorkbook wb = new HSSFWorkbook(in);
             HSSFSheet sheet = wb.getSheet(FIRST_SHEET);
             HSSFRow row = sheet.getRow(Integer.valueOf(userId));
             user.setName(row.getCell(USER_INFO.NAME).getStringCellValue());
@@ -86,14 +104,23 @@ public class UserDB {
             return user;
         }catch(Exception e){
             e.printStackTrace();
+        }finally {
+            try {
+                if (in != null) {
+                    in.close();
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
         return null;
     }
 
     public static User queryUserInfoByPhone(String phone) {
+        BufferedInputStream in = null;
         try {
-            FileInputStream fis = new FileInputStream(FILE_PATH);
-            HSSFWorkbook wb = new HSSFWorkbook(fis);
+            in = new BufferedInputStream(new FileInputStream(FILE_PATH));
+            HSSFWorkbook wb = new HSSFWorkbook(in);
             HSSFSheet sheet = wb.getSheet(FIRST_SHEET);
             int rowNum = sheet.getLastRowNum();
             for(int i = 1; i <= rowNum ; i ++){
@@ -120,14 +147,24 @@ public class UserDB {
             wb.close();
         }catch(IOException e){
             e.printStackTrace();
+        }finally {
+            try {
+                if (in != null) {
+                    in.close();
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
         return null;
     }
 
     public static boolean addUser(User user) {
+        BufferedInputStream in = null;
+        BufferedOutputStream out = null;
         try {
-            FileInputStream fis = new FileInputStream(FILE_PATH);
-            HSSFWorkbook wb = new HSSFWorkbook(fis);
+            in = new BufferedInputStream(new FileInputStream(FILE_PATH));
+            HSSFWorkbook wb = new HSSFWorkbook(in);
             HSSFSheet sheet = wb.getSheet(FIRST_SHEET);
             HSSFRow row = sheet.createRow(sheet.getLastRowNum() + 1);
             initId();
@@ -146,20 +183,32 @@ public class UserDB {
             row.createCell(USER_INFO.TOKEN).setCellValue(user.getToken());
             row.getCell(USER_INFO.TOKEN).setCellType(CellType.STRING);
             sId ++;
-            FileOutputStream out = new FileOutputStream(FILE_PATH);
+            out = new BufferedOutputStream(new FileOutputStream(FILE_PATH));
             wb.write(out);
             wb.close();
             return true;
         }catch(IOException e){
             e.printStackTrace();
+        } finally {
+            try {
+                if (in != null) {
+                    in.close();
+                }
+                if(out != null){
+                    out.close();
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
         return false;
     }
 
     public static String getUserIdByToken(String token){
+        BufferedInputStream in = null;
         try{
-            FileInputStream fis = new FileInputStream(FILE_PATH);
-            HSSFWorkbook wb = new HSSFWorkbook(fis);
+            in = new BufferedInputStream(new FileInputStream(FILE_PATH));
+            HSSFWorkbook wb = new HSSFWorkbook(in);
             HSSFSheet sheet = wb.getSheet(FIRST_SHEET);
             int lastNum = sheet.getLastRowNum();
             for(int i = 1 ; i <= lastNum ; i ++){
@@ -172,14 +221,23 @@ public class UserDB {
             wb.close();
         }catch(Exception e){
             e.printStackTrace();
+        }finally {
+            try {
+                if (in != null) {
+                    in.close();
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
         return null;
     }
 
     public static String getUserIdByPhone(String phone) {
+        BufferedInputStream in = null;
         try {
-            FileInputStream fis = new FileInputStream(FILE_PATH);
-            HSSFWorkbook wb = new HSSFWorkbook(fis);
+            in = new BufferedInputStream(new FileInputStream(FILE_PATH));
+            HSSFWorkbook wb = new HSSFWorkbook(in);
             HSSFSheet sheet = wb.getSheet(FIRST_SHEET);
             int lastNum = sheet.getLastRowNum();
             for(int i = 1; i <= lastNum ; i ++){
@@ -192,14 +250,23 @@ public class UserDB {
             wb.close();
         }catch(IOException e){
             e.printStackTrace();
+        }finally {
+            try {
+                if (in != null) {
+                    in.close();
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
         return null;
     }
 
     public static String getUserNameById(String userId){
+        BufferedInputStream in = null;
         try{
-            FileInputStream fis = new FileInputStream(FILE_PATH);
-            HSSFWorkbook wb = new HSSFWorkbook(fis);
+            in = new BufferedInputStream(new FileInputStream(FILE_PATH));
+            HSSFWorkbook wb = new HSSFWorkbook(in);
             HSSFSheet sheet = wb.getSheet(FIRST_SHEET);
             int id = Integer.valueOf(userId);
             wb.close();
@@ -207,14 +274,24 @@ public class UserDB {
                     getStringCellValue();
         }catch (Exception e){
             e.printStackTrace();
+        }finally {
+            try {
+                if (in != null) {
+                    in.close();
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
         return null;
     }
 
     public static boolean updateName(String userId, String newName) {
+        BufferedInputStream in = null;
+        BufferedOutputStream out = null;
         try {
-            FileInputStream fis = new FileInputStream(FILE_PATH);
-            HSSFWorkbook wb = new HSSFWorkbook(fis);
+            in = new BufferedInputStream(new FileInputStream(FILE_PATH));
+            HSSFWorkbook wb = new HSSFWorkbook(in);
             HSSFSheet sheet = wb.getSheet(FIRST_SHEET);
             int id = Integer.valueOf(userId);
             if(id <= sheet.getLastRowNum()) {
@@ -223,21 +300,34 @@ public class UserDB {
                 sheet.getRow(id).getCell(USER_INFO.NAME)
                         .setCellType(CellType.STRING);
 
-                FileOutputStream fos = new FileOutputStream(FILE_PATH);
-                wb.write(fos);
+                out = new BufferedOutputStream(new FileOutputStream(FILE_PATH));
+                wb.write(out);
                 wb.close();
                 return true;
             }
         }catch(IOException e){
             e.printStackTrace();
+        }finally {
+            try {
+                if (in != null) {
+                    in.close();
+                }
+                if (out != null) {
+                    out.close();
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
         return false;
     }
 
     public static boolean updatePwd(String userId, String newPwd) {
+        BufferedInputStream in = null;
+        BufferedOutputStream out = null;
         try {
-            FileInputStream fis = new FileInputStream(FILE_PATH);
-            HSSFWorkbook wb = new HSSFWorkbook(fis);
+            in = new BufferedInputStream(new FileInputStream(FILE_PATH));
+            HSSFWorkbook wb = new HSSFWorkbook(in);
             HSSFSheet sheet = wb.getSheet(FIRST_SHEET);
             int id = Integer.valueOf(userId);
             if(id <= sheet.getLastRowNum()) {
@@ -245,21 +335,34 @@ public class UserDB {
                         .setCellValue(newPwd);
                 sheet.getRow(id).getCell(USER_INFO.PWD)
                         .setCellType(CellType.STRING);
-                FileOutputStream fos = new FileOutputStream(FILE_PATH);
-                wb.write(fos);
+                out = new BufferedOutputStream(new FileOutputStream(FILE_PATH));
+                wb.write(out);
                 wb.close();
                 return true;
             }
         } catch (IOException e) {
             e.printStackTrace();
+        }finally {
+            try {
+                if (in != null) {
+                    in.close();
+                }
+                if (out != null) {
+                    out.close();
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
         return false;
     }
 
     public static boolean updataToken(String userId, String newToken){
+        BufferedInputStream in = null;
+        BufferedOutputStream out = null;
         try {
-            FileInputStream fis = new FileInputStream(FILE_PATH);
-            HSSFWorkbook wb = new HSSFWorkbook(fis);
+            in = new BufferedInputStream(new FileInputStream(FILE_PATH));
+            HSSFWorkbook wb = new HSSFWorkbook(in);
             HSSFSheet sheet = wb.getSheet(FIRST_SHEET);
             int id = Integer.valueOf(userId);
             if(id <= sheet.getLastRowNum()){
@@ -267,21 +370,33 @@ public class UserDB {
                         .setCellType(CellType.STRING);
                 sheet.getRow(id).getCell(USER_INFO.TOKEN)
                         .setCellValue(newToken);
-                FileOutputStream fos = new FileOutputStream(FILE_PATH);
-                wb.write(fos);
+               out = new BufferedOutputStream(new FileOutputStream(FILE_PATH));
+                wb.write(out);
                 wb.close();
                 return true;
             }
         }catch(Exception e){
             e.printStackTrace();
+        }finally {
+            try {
+                if (in != null) {
+                    in.close();
+                }
+                if (out != null) {
+                    out.close();
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
         return false;
     }
 
     public static String getExpireTime(String token){
+        BufferedInputStream in = null;
         try {
-            FileInputStream fis = new FileInputStream(FILE_PATH);
-            HSSFWorkbook wb = new HSSFWorkbook(fis);
+            in = new BufferedInputStream(new FileInputStream(FILE_PATH));
+            HSSFWorkbook wb = new HSSFWorkbook(in);
             HSSFSheet sheet = wb.getSheet(FIRST_SHEET);
             int lastNum = sheet.getLastRowNum();
             for(int i = 1 ; i <= lastNum ; i ++){
@@ -294,45 +409,66 @@ public class UserDB {
             }
         }catch (Exception e){
             e.printStackTrace();
+        }finally {
+            try {
+                if (in != null) {
+                    in.close();
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
         return null;
     }
 
     public static boolean updataExpireTime
             (String userId, String expireTime){
+        BufferedInputStream in = null;
+        BufferedOutputStream out = null;
         try{
-            FileInputStream fis = new FileInputStream(FILE_PATH);
-            HSSFWorkbook wb = new HSSFWorkbook(fis);
+            in = new BufferedInputStream(new FileInputStream(FILE_PATH));
+            HSSFWorkbook wb = new HSSFWorkbook(in);
             HSSFSheet sheet = wb.getSheet(FIRST_SHEET);
             int id = Integer.valueOf(userId);
             sheet.getRow(id).createCell(USER_INFO.EXPIRE_TIME);
             HSSFCell cell = sheet.getRow(id).getCell(USER_INFO.EXPIRE_TIME);
             cell.setCellValue(expireTime);
             cell.setCellType(CellType.STRING);
-            FileOutputStream fos = new FileOutputStream(FILE_PATH);
-            wb.write(fos);
+            out = new BufferedOutputStream(new FileOutputStream(FILE_PATH));
+            wb.write(out);
             wb.close();
             return true;
         }catch (Exception e){
             e.printStackTrace();
+        }finally {
+            try {
+                if (in != null) {
+                    in.close();
+                }
+                if (out != null) {
+                    out.close();
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
         return false;
     }
 
     public static void main(String[] args){
-//        initUserDB();
-//        User user = new User();
-//        user.setPwd("kid123");
-//        user.setAge("18");
-//        user.setName("kid");
-//        user.setPhone("18844544708");
-//        user.setSex("woman");
-//        user.setToken("1234567");
-//        addUser(user);
+        initUserDB();
+        User user = new User();
+        user.setPwd("kid123");
+        user.setAge("18");
+        user.setName("kid");
+        user.setPhone("18844544708");
+        user.setSex("woman");
+        user.setToken("1234567");
+        addUser(user);
 //        String phone = "14208987623";
 //        System.out.println(getUserId(phone));
 //        System.out.println(updatePwd("4", "yuan123"));
 //        System.out.println(updateName("4", "yuan"));
-        updataExpireTime("2", "2018-12-31 06:30:16");
+//        updataExpireTime("2", "2018-12-31 06:30:16");
     }
 }
