@@ -19,8 +19,7 @@ paramsType = {ParamsType.String, ParamsType.String},
 paramsCanNull = {false, false})
 public class UserLoginLogic implements ILogic {
     @Override
-    public Response done(Request request){
-        Response response = new Response();
+    public void done(Request request, Response response){
         JSONObject data = JSONObject.fromObject(request.getData());
         String phone = data.getString("phone");
         String pwd = data.getString("pwd");
@@ -29,7 +28,6 @@ public class UserLoginLogic implements ILogic {
             response.setCode(Response.Status.FAILED);
             response.setMessage("\"user isn't exist!\"");
             response.setData("\"\"");
-            return response;
         }else if(user.getPwd().equals(pwd)) {
             String newToken = ServiceTools.createToken();
             HashMap<String, Object> dataRes = new HashMap<>();
@@ -60,7 +58,7 @@ public class UserLoginLogic implements ILogic {
             response.setMessage("\"phone and pwd doesn't match!\"");
             response.setData("\"\"");
         }
-        return response;
+        response.sendResponse();
     }
 
     public static void main(String[] args){
@@ -70,6 +68,6 @@ public class UserLoginLogic implements ILogic {
         data.put("phone", "18844544703");
         data.put("pwd", "t13");
         request.setData(data.toString());
-        System.out.println(userLoginLogic.done(request));
+//        System.out.println(userLoginLogic.done(request));
     }
 }

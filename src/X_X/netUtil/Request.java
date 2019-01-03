@@ -3,8 +3,8 @@ package X_X.netUtil;
 import net.sf.json.JSONObject;
 
 public class Request {
-    private String action;
-    private String data;
+    private String mAction;
+    private String mData;
 
     public Request(){
 
@@ -12,31 +12,31 @@ public class Request {
 
     public Request(String requestStr){
         JSONObject requestJson = JSONObject.fromObject(requestStr);
-        action = String.valueOf(requestJson.get("action"));
-        data = requestJson.get("data").toString();
+        mAction = String.valueOf(requestJson.get("action"));
+        mData = requestJson.get("data").toString();
     }
     
     public String getAction() {
-        return action;
+        return mAction;
     }
 
     public void setAction(String action) {
-        this.action = action;
+        this.mAction = action;
     }
     public String getData() {
-        return data;
+        return mData;
     }
 
     public void setData(String data) {
-        this.data = data;
+        this.mData = data;
     }
 
     public String toString(){
         StringBuilder sb = new StringBuilder();
         sb.append("{action:");
-        sb.append(action);
+        sb.append(mAction);
         sb.append(":data:");
-        sb.append(data);
+        sb.append(mData);
         return sb.toString();
     }
 }

@@ -18,8 +18,7 @@ paramsType = {ParamsType.String},
 paramsCanNull = {false})
 public class UserInfoLogic implements ILogic {
     @Override
-    public Response done(Request request){
-        Response response = new Response();
+    public void done(Request request, Response response){
         JSONObject data = JSONObject.fromObject(request.getData());
         String phone = String.valueOf(data.get("phone"));
         if(phone != null) {
@@ -43,7 +42,7 @@ public class UserInfoLogic implements ILogic {
             response.setData("\"\"");
             response.setMessage("\"request is wrong!\"");
         }
-        return response;
+        response.sendResponse();
     }
 
     public static void main(String[] args){
@@ -52,6 +51,6 @@ public class UserInfoLogic implements ILogic {
         JSONObject data = new JSONObject();
         data.put("pone", "1884544703");
         request.setData(data.toString());
-        System.out.println(userInfoLogic.done(request));
+//        System.out.println(userInfoLogic.done(request));
     }
 }

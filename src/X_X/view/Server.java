@@ -25,7 +25,7 @@ public class Server {
     private Socket mSocket;
 
     public interface CallBack{
-        public Response onRequest(Request request);
+        public void onRequest(Request request, Response response);
     }
 
     private static class InstanceHolder{
@@ -105,32 +105,34 @@ public class Server {
             public void handleMessage(Message msg){
                 if(msg.getWhat() == RECEIVE_REQUEST){
                     Request request = (Request)msg.getObject();
-                    Response response = mCallBack.onRequest(request);
-                    DataOutputStream os = null;
-                    try{
-                        if(response != null) {
-                            Socket socket = mSocket;
-                            os = new DataOutputStream(
-                                    new BufferedOutputStream(socket.getOutputStream())
-                            );
-                            System.out.println("准备发送response: " + response.toString());
-                            os.writeUTF(response.toString());
-                            os.flush();
-                        }else {
-                            System.out.println("response is null!");
-                        }
-
-                    }catch(Exception e){
-                        e.printStackTrace();
-                    }finally{
-                        if(os != null){
-                            try{
-                                os.close();
-                            } catch(IOException e){
-                                e.printStackTrace();
-                            }
-                        }
-                    }
+                    Response response = Response.getInstance();
+                    response.setSocket(mSocket);
+                    mCallBack.onRequest(request, response);
+//                    DataOutputStream os = null;
+//                    try{
+//                        if(response != null) {
+//                            Socket socket = mSocket;
+//                            os = new DataOutputStream(
+//                                    new BufferedOutputStream(socket.getOutputStream())
+//                            );
+//                            System.out.println("准备发送response: " + response.toString());
+//                            os.writeUTF(response.toString());
+//                            os.flush();
+//                        }else {
+//                            System.out.println("response is null!");
+//                        }
+//
+//                    }catch(Exception e){
+//                        e.printStackTrace();
+//                    }finally{
+//                        if(os != null){
+//                            try{
+//                                os.close();
+//                            } catch(IOException e){
+//                                e.printStackTrace();
+//                            }
+//                        }
+//                    }
                 }
             }
         };

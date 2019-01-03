@@ -7,11 +7,9 @@ import X_X.view.ILogic;
 import X_X.view.OnLineUsers;
 import net.sf.json.JSONObject;
 
-
 public class DeleteContentLogic implements ILogic {
     @Override
-    public Response done(Request request){
-        Response response = new Response();
+    public void done(Request request, Response response){
         JSONObject data = JSONObject.fromObject(request.getData());
         String token = (String)data.get("token");
         String contentId = (String)data.get("contentId");
@@ -37,6 +35,5 @@ public class DeleteContentLogic implements ILogic {
             response.setData("\"\"");
             response.setMessage("\"request is wrong!\"");
         }
-        return response;
     }
 }

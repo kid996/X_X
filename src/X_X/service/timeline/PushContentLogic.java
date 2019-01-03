@@ -14,8 +14,7 @@ paramsType = {ParamsType.String, ParamsType.String,
 paramsCanNull = {false, false, false, false})
 public class PushContentLogic implements ILogic {
     @Override
-    public Response done(Request request){
-        Response response = new Response();
+    public void done(Request request, Response response){
         JSONObject data = JSONObject.fromObject(request.getData());
         String content = (String)data.get("content");
         String createTime = (String)data.get("createTime");
@@ -44,7 +43,7 @@ public class PushContentLogic implements ILogic {
             response.setData("\"\"");
             response.setMessage("\"request is wrong!\"");
         }
-        return response;
+        response.sendResponse();
     }
 
     public static void main(String[] args){
@@ -57,6 +56,6 @@ public class PushContentLogic implements ILogic {
         data.put("token", "123456");
         data.put("createTime", "2018-12-27");
         request.setData(data.toString());
-        System.out.println(pushContentLogic.done(request));
+//        System.out.println(pushContentLogic.done(request));
     }
 }

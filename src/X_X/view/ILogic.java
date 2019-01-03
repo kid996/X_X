@@ -4,5 +4,5 @@ import X_X.netUtil.Request;
 import X_X.netUtil.Response;
 
 public interface ILogic {
-    public Response done(Request request);
+    public void done(Request request, Response response);
 }

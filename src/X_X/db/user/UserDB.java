@@ -73,7 +73,6 @@ public class UserDB {
         try{
             out = new BufferedOutputStream(new FileOutputStream(FILE_PATH));
             wb.write(out);
-            //TODO
             out.flush();
         }catch (IOException e){
             e.printStackTrace();

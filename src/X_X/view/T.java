@@ -1,11 +1,9 @@
 package X_X.view;
 
-import java.util.HashMap;
-
 public class T{
-    public static void main(String[] args) {
-        HashMap<String, Object> userContents = new HashMap<>();
-        String str = (String)userContents.get("hh");
-        System.out.println(str);
+    public static void main(String[] args) throws Exception{
+        Class c = Class.forName("X_X.model.user.User");
+        Object user = c.newInstance();
+        System.out.println(user);
     }
 }

@@ -18,8 +18,7 @@ paramsType = {ParamsType.String, ParamsType.String},
 paramsCanNull = {false, false})
 public class UserUpdataPwdLogic implements ILogic {
     @Override
-    public Response done(Request request){
-        Response response = new Response();
+    public void done(Request request, Response response){
         JSONObject data = JSONObject.fromObject(request.getData());
         String newPwd = (String)data.get("newPwd");
         String token = (String)data.get("token");
@@ -54,7 +53,7 @@ public class UserUpdataPwdLogic implements ILogic {
                 response.setMessage("\"request is wrong!\"");
             }
         }
-        return response;
+        response.sendResponse();
     }
 
     public static void main(String[] args){
@@ -65,6 +64,6 @@ public class UserUpdataPwdLogic implements ILogic {
         data.put("token", "123456");
         data.put("newPwd", "test123");
         request.setData(data.toString());
-        System.out.println(userUpdataPwdLogic.done(request));
+//        System.out.println(userUpdataPwdLogic.done(request));
     }
 }

@@ -15,8 +15,7 @@ paramsType = {ParamsType.String},
 paramsCanNull = {false})
 public class UserLogoutLogic implements ILogic {
     @Override
-    public Response done(Request request){
-        Response response = new Response();
+    public void done(Request request, Response response){
         JSONObject data = JSONObject.fromObject(request.getData());
         String token = (String)data.get("token");
         if(token != null){
@@ -35,7 +34,7 @@ public class UserLogoutLogic implements ILogic {
             response.setData("\"\"");
             response.setMessage("\"request is wrong!\"");
         }
-        return response;
+        response.sendResponse();
     }
 
     public static void main(String[] args){
@@ -45,6 +44,6 @@ public class UserLogoutLogic implements ILogic {
         JSONObject data = new JSONObject();
         data.put("tokn", "123456");
         request.setData(data.toString());
-        System.out.println(userLogoutLogic.done(request));
+//        System.out.println(userLogoutLogic.done(request));
     }
 }

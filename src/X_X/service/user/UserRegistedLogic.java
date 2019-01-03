@@ -19,8 +19,7 @@ paramsType = {ParamsType.String, ParamsType.String,
 paramsCanNull = {false, false, false, false, false})
 public class UserRegistedLogic implements ILogic {
     @Override
-    public Response done(Request request){
-        Response response = new Response();
+    public void done(Request request, Response response){
         JSONObject data = JSONObject.fromObject(request.getData());
         if(data.has("name") && data.has("phone")
                 && data.has("pwd") && data.has("age")
@@ -61,7 +60,7 @@ public class UserRegistedLogic implements ILogic {
             response.setData("\"\"");
             response.setMessage("\"request is wrong!\"");
         }
-        return response;
+        response.sendResponse();
     }
 
     public static void main(String[] args){
@@ -74,6 +73,6 @@ public class UserRegistedLogic implements ILogic {
         data.put("pwd", "r123");
         data.put("phone", "18844544321");
         request.setData(data.toString());
-        System.out.println(userRegistedLogic.done(request));
+//        System.out.println(userRegistedLogic.done(request));
     }
 }

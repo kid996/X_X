@@ -19,8 +19,7 @@ paramsType = ParamsType.String,
 paramsCanNull = {false})
 public class UserHomeLogic implements ILogic {
     @Override
-    public Response done(Request request){
-        Response response = new Response();
+    public void done(Request request, Response response){
         JSONObject data = JSONObject.fromObject(request.getData());
         if(data.has("token")) {
             String token = (String) data.get("token");
@@ -51,7 +50,7 @@ public class UserHomeLogic implements ILogic {
             response.setData("\"\"");
             response.setMessage("\"request is wrong!\"");
         }
-        return response;
+        response.sendResponse();
     }
 
     public static void main(String[] args){
@@ -61,7 +60,7 @@ public class UserHomeLogic implements ILogic {
         JSONObject data = new JSONObject();
         data.put("token", "123456");
         request.setData(data.toString());
-        Response response = userHomeLogic.done(request);
-        System.out.println(response);
+//        Response response = userHomeLogic.done(request);
+//        System.out.println(response);
     }
 }

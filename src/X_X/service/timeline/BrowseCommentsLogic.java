@@ -18,8 +18,7 @@ paramsType = {ParamsType.String, ParamsType.String},
 paramsCanNull = {false, false})
 public class BrowseCommentsLogic implements ILogic {
     @Override
-    public Response done(Request request){
-        Response response = new Response();
+    public void done(Request request,Response response){
         JSONObject data = JSONObject.fromObject(request.getData());
         String token = String.valueOf(data.get("token"));
         String contentId = String.valueOf(data.get("contentId"));
@@ -47,7 +46,7 @@ public class BrowseCommentsLogic implements ILogic {
             response.setData("\"\"");
             response.setMessage("\"request is wrong!\"");
         }
-        return response;
+        response.sendResponse();
     }
 
     public static void main(String[] agrs){
@@ -58,6 +57,6 @@ public class BrowseCommentsLogic implements ILogic {
         data.put("contentId", "1");
         request.setData(data.toString());
         BrowseCommentsLogic b = new BrowseCommentsLogic();
-        System.out.println(b.done(request));
+//        System.out.println(b.done(request));
     }
 }

@@ -16,8 +16,7 @@ paramsCanNull = {false})
 public class TokenIsRightLogic implements ILogic {
 
     @Override
-    public Response done(Request request){
-        Response response = new Response();
+    public void done(Request request, Response response){
         JSONObject data = JSONObject.fromObject(request.getData());
         String token = (String)data.get("token");
         if(token != null){
@@ -57,6 +56,6 @@ public class TokenIsRightLogic implements ILogic {
             response.setData("\"\"");
             response.setMessage("\"request is wrong!\"");
         }
-        return response;
+        response.sendResponse();
     }
 }

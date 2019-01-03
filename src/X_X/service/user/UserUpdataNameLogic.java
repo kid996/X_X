@@ -16,8 +16,7 @@ paramsType = {ParamsType.String, ParamsType.String},
 paramsCanNull = {false, false})
 public class UserUpdataNameLogic implements ILogic {
     @Override
-    public Response done(Request request){
-        Response response = new Response();
+    public void done(Request request, Response response){
         JSONObject data = JSONObject.fromObject(request.getData());
         if(data.has("token")&&data.has("newName")) {
             String token = (String) data.get("token");
@@ -45,7 +44,7 @@ public class UserUpdataNameLogic implements ILogic {
             response.setData("\"\"");
             response.setMessage("\"request is wrong!\"");
         }
-        return response;
+        response.sendResponse();
     }
 
     public static void main(String[] args){
@@ -56,6 +55,6 @@ public class UserUpdataNameLogic implements ILogic {
         data.put("token", "123456");
         data.put("newName", "test");
         request.setData(data.toString());
-        System.out.println(userUpdataNameLogic.done(request));
+//        System.out.println(userUpdataNameLogic.done(request));
     }
 }

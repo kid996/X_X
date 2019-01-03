@@ -18,8 +18,7 @@ paramsType = {ParamsType.String, ParamsType.String,
 paramsCanNull = {false, false,false, false, false})
 public class PushCommentLogic implements ILogic {
     @Override
-    public Response done(Request request){
-        Response response = new Response();
+    public void done(Request request, Response response){
         JSONObject data = JSONObject.fromObject(request.getData());
         String token = (String)data.get("token");
         String comment = (String)data.get("comment");
@@ -48,7 +47,7 @@ public class PushCommentLogic implements ILogic {
             response.setData("\"\"");
             response.setMessage("\"request is wrong!\"");
         }
-        return response;
+        response.sendResponse();
     }
 
     public static void main(String[] args){
@@ -61,6 +60,6 @@ public class PushCommentLogic implements ILogic {
         data.put("contentId", "1");
         data.put("createTime", "2019-12-30");
         request.setData(data.toString());
-        System.out.println(p.done(request));
+//        System.out.println(p.done(request));
     }
 }
