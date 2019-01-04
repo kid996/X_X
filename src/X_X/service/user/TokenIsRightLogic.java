@@ -56,6 +56,6 @@ public class TokenIsRightLogic implements ILogic {
             response.setData("\"\"");
             response.setMessage("\"request is wrong!\"");
         }
-        response.sendResponse(response);
+        response.sendResponse();
     }
 }

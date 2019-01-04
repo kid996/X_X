@@ -2,6 +2,7 @@ package X_X.view;
 
 import X_X.netUtil.Request;
 import X_X.netUtil.Response;
+import X_X.netUtil.Server;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;

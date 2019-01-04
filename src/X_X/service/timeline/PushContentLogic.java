@@ -43,7 +43,7 @@ public class PushContentLogic implements ILogic {
             response.setData("\"\"");
             response.setMessage("\"request is wrong!\"");
         }
-        response.sendResponse(response);
+        response.sendResponse();
     }
 
     public static void main(String[] args){

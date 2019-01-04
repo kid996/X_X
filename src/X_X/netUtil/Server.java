@@ -1,10 +1,9 @@
-package X_X.view;
+package X_X.netUtil;
 
-import X_X.netUtil.Request;
-import X_X.netUtil.Response;
 import X_X.handler.Handler;
 import X_X.handler.Looper;
 import X_X.handler.Message;
+import X_X.view.DequeueThread;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -108,31 +107,6 @@ public class Server {
                     Response response = new Response();
                     response.setSocket(mSocket);
                     mCallBack.onRequest(request, response);
-//                    DataOutputStream os = null;
-//                    try{
-//                        if(response != null) {
-//                            Socket socket = mSocket;
-//                            os = new DataOutputStream(
-//                                    new BufferedOutputStream(socket.getOutputStream())
-//                            );
-//                            System.out.println("准备发送response: " + response.toString());
-//                            os.writeUTF(response.toString());
-//                            os.flush();
-//                        }else {
-//                            System.out.println("response is null!");
-//                        }
-//
-//                    }catch(Exception e){
-//                        e.printStackTrace();
-//                    }finally{
-//                        if(os != null){
-//                            try{
-//                                os.close();
-//                            } catch(IOException e){
-//                                e.printStackTrace();
-//                            }
-//                        }
-//                    }
                 }
             }
         };

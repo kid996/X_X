@@ -59,7 +59,7 @@ public class UserLoginLogic implements ILogic {
             response.setData("\"\"");
         }
         //TODO 这样好蠢
-        response.sendResponse(response);
+        response.sendResponse();
     }
 
     public static void main(String[] args){

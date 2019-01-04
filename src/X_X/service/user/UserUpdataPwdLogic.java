@@ -53,7 +53,7 @@ public class UserUpdataPwdLogic implements ILogic {
                 response.setMessage("\"request is wrong!\"");
             }
         }
-        response.sendResponse(response);
+        response.sendResponse();
     }
 
     public static void main(String[] args){

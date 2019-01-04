@@ -51,21 +51,17 @@ public class Response {
         this.mSocket = socket;
     }
 
-    public void sendResponse(Response response){
+    public void sendResponse(){
         if(mSocket == null){
             System.out.println("socket is null!");
             return;
         }
         DataOutputStream os = null;
         try {
-            if(response != null) {
-                os = new DataOutputStream(
-                        new BufferedOutputStream(mSocket.getOutputStream()));
-                System.out.println("准备发送response: " + response.toString());
-                os.writeUTF(response.toString());
-            }else{
-                System.out.println("response is null!");
-            }
+            os = new DataOutputStream(
+                    new BufferedOutputStream(mSocket.getOutputStream()));
+            System.out.println("准备发送response: " + this.toString());
+            os.writeUTF(this.toString());
         }catch (Exception e){
             e.printStackTrace();
         }finally {
