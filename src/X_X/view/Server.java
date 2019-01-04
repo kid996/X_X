@@ -105,7 +105,7 @@ public class Server {
             public void handleMessage(Message msg){
                 if(msg.getWhat() == RECEIVE_REQUEST){
                     Request request = (Request)msg.getObject();
-                    Response response = Response.getInstance();
+                    Response response = new Response();
                     response.setSocket(mSocket);
                     mCallBack.onRequest(request, response);
 //                    DataOutputStream os = null;

@@ -45,7 +45,7 @@ public class BrowseContentsLogic implements ILogic {
             response.setData("\"\"");
             response.setMessage("\"request is wrong!\"");
         }
-        response.sendResponse();
+        response.sendResponse(response);
     }
 
     public static void main(String[] args){

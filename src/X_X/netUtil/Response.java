@@ -9,21 +9,14 @@ public class Response {
     private Object mData;
     private String mMessage;
     private Socket mSocket;
+    private Response mResponse;
+
+    public Response(){
+    }
 
     public static interface Status{
         public final static int SUCCESS = 0;
         public final static int FAILED = 1;
-    }
-    //为什么要是静态的？
-    private static class InstanceHolder {
-        public static Response sInstance = new Response();
-    }
-    //因为这里必须是static 外部才能调用，而这里由于是static，只能调用static类
-    public static Response getInstance(){
-        return InstanceHolder.sInstance;
-    }
-
-    private Response(){
     }
 
     public int getCode() {
@@ -58,13 +51,12 @@ public class Response {
         this.mSocket = socket;
     }
 
-    public void sendResponse(){
+    public void sendResponse(Response response){
         if(mSocket == null){
             System.out.println("socket is null!");
             return;
         }
         DataOutputStream os = null;
-        Response response = Response.getInstance();
         try {
             if(response != null) {
                 os = new DataOutputStream(

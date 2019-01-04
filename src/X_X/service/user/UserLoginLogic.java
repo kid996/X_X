@@ -58,7 +58,8 @@ public class UserLoginLogic implements ILogic {
             response.setMessage("\"phone and pwd doesn't match!\"");
             response.setData("\"\"");
         }
-        response.sendResponse();
+        //TODO 这样好蠢
+        response.sendResponse(response);
     }
 
     public static void main(String[] args){
